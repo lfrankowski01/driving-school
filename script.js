@@ -8,9 +8,9 @@
     const slotsContainer = document.getElementById("slots");
     const dateInput = document.getElementById("date");
 
-    let bookings = JSON.parse(localStorage.getItem("bookings")) || [];  //Array of all bookings
-    let bookedSlots = JSON.parse(localStorage.getItem("bookedSlots")) || {};    //Object to track booked slots by date
-    let selectedTime = null;    //Currently selected time slot
+    let bookings = JSON.parse(localStorage.getItem("bookings")) || [];  
+    let bookedSlots = JSON.parse(localStorage.getItem("bookedSlots")) || {};    
+    let selectedTime = null;    
     
     const timeSlots = [
         "09:00",
@@ -21,12 +21,12 @@
         "14:00",
         "15:00",
         "16:00"
-    ];  //Available time slots
+    ];  
 
     //FUNCTION: RENDER TIME SLOTS
     //Dynamically generates time slots buttons based on selected date and availability
     function renderTimeSlots(selectedDate) {
-        slotsContainer.innerHTML = ""; //Clear previous slots
+        slotsContainer.innerHTML = ""; 
 
         timeSlots.forEach(function (time) {
             const button = document.createElement("button");
@@ -35,12 +35,12 @@
 
             const bookedForDate = bookedSlots[selectedDate] || [];
 
-            if (bookedForDate.includes(time)) { //Disable button if time slot booked
+            if (bookedForDate.includes(time)) { 
                 button.classList.add("booked");
                 button.disabled = true;
             }
 
-            button.addEventListener("click",    //Select time when user clicks
+            button.addEventListener("click",    
                 function () {
                     document.querySelectorAll("#slots button")
                             .forEach(btn => 
@@ -65,7 +65,7 @@
     //FUNCTION: DISPLAY BOOKINGS
     //Show all bookings in booking list with cancel button
     function displayBookings() {
-        bookingList.innerHTML = ""; //Clear previous list
+        bookingList.innerHTML = "";
         
         if (bookings.length === 0) {
             bookingList.innerHTML = "<li>No Bookings Yet</li>";
@@ -77,7 +77,7 @@
 
             const text = document.createElement("div");
             text.className = "booking-text";
-            text.textContent = `${booking.name} | ${booking.date} | ${booking.time} | ${booking.lesson}`;   //Booking text
+            text.textContent = `${booking.name} | ${booking.date} | ${booking.time} | ${booking.lesson}`;
 
             const cancelBtn = document.createElement("button");
             cancelBtn.className = "cancel-btn";
@@ -103,18 +103,18 @@
         const date = booking.date;
         const time = booking.time;
 
-        //Remove time from bookedSlots
         bookedSlots[date] = bookedSlots[date].filter(bookedTime => bookedTime !== time);
         if (bookedSlots[date].length === 0) {
             delete bookedSlots[date];
         }
 
-        bookings.splice(index, 1);  //Remove booking from array
+        bookings.splice(index, 1);  
 
-        localStorage.setItem("bookings", JSON.stringify(bookings)); //Updates localStorage
+        localStorage.setItem("bookings", JSON.stringify(bookings)); 
         localStorage.setItem("bookedSlots", JSON.stringify(bookedSlots));
 
         displayBookings();  //Update UI
+        summaryBox.classList.add("hidden");
         if (dateInput.value === date) {
             renderTimeSlots(date);
         }
@@ -130,6 +130,7 @@
             bookedSlots = {};
             displayBookings();
             slotsContainer.innerHTML = "";
+            summaryBox.classList.add("hidden");
 
     });
 
@@ -149,7 +150,7 @@
             return;
         }
 
-        const booking = {   //Create booking object
+        const booking = {   
             name,
             date,
             time: selectedTime,
@@ -157,10 +158,10 @@
             price
         }
 
-        bookings.push(booking); //Save booking in state and localStorage
+        bookings.push(booking); 
         localStorage.setItem("bookings", JSON.stringify(bookings));
 
-        if (!bookedSlots[date]) {   //Save booked time slot
+        if (!bookedSlots[date]) {   
             bookedSlots[date] = [];
         }
         bookedSlots[date].push(selectedTime);
@@ -170,9 +171,9 @@
             `Name: ${name} | Date: ${date} | Time: ${selectedTime} | Lesson: ${lessonName} | Price: £${price}`;
         summaryBox.classList.remove("hidden");
         displayBookings();
-        form.reset();   //Reset form and selection
+        form.reset();   
         selectedTime = null;
-        renderTimeSlots(date);  //Re-render slots to reflect booking
+        renderTimeSlots(date);  
 
     });
 

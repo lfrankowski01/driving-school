@@ -11,14 +11,17 @@
         <h2>Book Your Lesson</h2>
 
         <form id="bookingForm">
-            <input type="text" id="name" placeholder="Your Name" />
+            <label for="name">Your Name:</label>
+            <input type="text" id="name"/>
+            <label for="date">Select Date:</label>
             <input type="date" id="date" />
             <div class="time-slots">
-                <p>Select Time:</p>
+                <label for="slots">Select Time:</label>
                 <div id="slots"></div>
             </div>
+            <label for="lessonType">Lesson Type:</label>
             <select id="lessonType">
-                <option value="">Choose Lesson</option>
+                <option value="" disabled selected>Choose Lesson</option>
                 <option value="Manual">Manual</option>
                 <option value="Automatic">Automatic</option>
             </select>
@@ -26,7 +29,7 @@
             <button type="submit">Confirm Booking</button>
         </form>
 
-        <div id="summary" class="summary hidden">
+        <div id="summary" class="hidden">
             <h3>Booking Summary</h3>
             <p id="summaryText"></p>
         </div>
@@ -34,7 +37,7 @@
         <div class="bookings">
             <h3>All Bookings</h3>
             <ul id="bookingList"></ul>
-            <button id="clearBookings">Clear All</button>
+            <button id="clearBookings">Clear All Bookings</button>
         </div>
  
     </section>
